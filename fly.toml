@@ -14,3 +14,20 @@ primary_region = 'cdg'
   auto_start_machines = true
   min_machines_running = 0
   processes = ["app"]
+
+  # 1. Estrategia de Despliegue
+  # "canary" asegura que el nuevo código solo se despliegue si pasa la verificación de salud.
+  # Si falla, Fly.io no reemplaza la versión anterior.
+  [[http_service.checks]]
+    # Strategy = "canary"
+    # Note: La estrategia 'canary' se configura a nivel de la app, 
+    # pero Fly.io también respeta estas verificaciones (checks).
+    
+    # 2. Configuración del Health Check HTTP
+    # Esta verificación se realiza al endpoint /health
+    # Si devuelve un código de estado 200 (OK), se considera saludable.
+    grace_period = "5s"  # Espera 5 segundos antes de comenzar la verificación
+    interval = "10s"     # Realiza la verificación cada 10 segundos
+    method = "GET"
+    path = "/health"     # El endpoint que creaste en tu aplicación
+    timeout = "2s"       # Espera hasta 2 segundos por una respuesta
