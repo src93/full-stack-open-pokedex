@@ -9,13 +9,13 @@ module.exports = defineConfig({
   workers: 1,
   reporter: 'html',
   use: {
-    baseURL: 'http://localhost:5050',
+    baseURL: 'http://localhost:3000',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
   },
   webServer: {
     command: 'npm run start-prod',
-    url: 'http://localhost:5050',
+    url: 'http://localhost:3000',
     timeout: 120000,
     reuseExistingServer: !process.env.CI,
   },
