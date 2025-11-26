@@ -46,7 +46,7 @@ jobs:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-latest
     # Asegura que solo se ejecute tras una fusión
-    if: ${{ github.event_name == 'push' }} 
+    if: ${{ github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip') }}
     steps:
       # 🚨 SOLUCIÓN: Añadir el checkout del repositorio
       - name: Checkout Code
