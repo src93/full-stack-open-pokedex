@@ -45,9 +45,19 @@ jobs:
   tag_release:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-latest
+    # Asegura que solo se ejecute tras una fusión
+    if: ${{ github.event_name == 'push' }} 
     steps:
+      # 🚨 SOLUCIÓN: Añadir el checkout del repositorio
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          # Es crucial para que la acción de tagging vea todas las etiquetas existentes
+          fetch-depth: 0
       - name: Bump version and push tag
         uses: anothrNick/github-tag-action@1.75.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEFAULT_BUMP: patch
+          # Se recomienda añadir WITH_V: true para que las etiquetas sean v1.0.0 en lugar de 1.0.0
+          WITH_V: true
