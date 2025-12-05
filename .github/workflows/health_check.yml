@@ -25,7 +25,7 @@ jobs:
 
       - name: Run Periodic Health Check
         # Usaremos la acción 'url-health-check' como se sugirió
-        uses: shashidharatd/url-health-check@v1
+        uses: jtalk/url-health-check-action@v4
         with:
           url: 'https://full-stack-open-pokedex-patient-field-2633.fly.dev/health'  # <--- ¡REEMPLAZA CON LA URL DE TU APP!
           max-attempts: 3
