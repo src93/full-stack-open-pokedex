@@ -42,6 +42,18 @@ jobs:
         run: flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      - name: Test Success
+        uses: rjstone/discord-webhook-notify@v2
+        if: success()
+        with:
+          severity: info
+          details: All tests passed!
+      - name: Test Error
+        uses: rjstone/discord-webhook-notify@v2
+        if: cancelled()
+        with:
+          severity: error
+          details: An error occurred during tests.
   tag_release:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-latest
