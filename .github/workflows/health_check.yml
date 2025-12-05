@@ -1,0 +1,33 @@
+# .github/workflows/health_check.yml
+
+name: Health Check Ping
+
+# 1. Configuración del Trigger
+# Por ahora, usamos 'push' para probar la funcionalidad rápidamente.
+# Lo cambiaremos a 'schedule' más tarde.
+
+on:
+  push:
+    branches:
+      - main  # O la rama de despliegue que uses (e.g., master)
+  # Más tarde, descomentaremos y ajustaremos la programación:
+  # schedule:
+  #   # Ejecutar a las 00:00 UTC cada día
+  #   - cron: '0 0 * * *'
+
+jobs:
+  ping_application:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Periodic Health Check
+        # Usaremos la acción 'url-health-check' como se sugirió
+        uses: shashidharatd/url-health-check@v1
+        with:
+          url: 'https://full-stack-open-pokedex-patient-field-2633.fly.dev/health'  # <--- ¡REEMPLAZA CON LA URL DE TU APP!
+          max-attempts: 3
+          wait-time: 5s
+          expected-status-code: 200
